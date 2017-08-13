@@ -1,0 +1,32 @@
+{
+  "name": "mini-blog",
+  "version": "1.0.0",
+  "description": "a mini blog",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sirjiangbo/mini-blog.git"
+  },
+  "keywords": [
+    "mini",
+    "blog",
+    "hapi"
+  ],
+  "author": "sirjiangbo@hotmail.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/sirjiangbo/mini-blog/issues"
+  },
+  "homepage": "https://github.com/sirjiangbo/mini-blog#readme",
+  "dependencies": {
+    "good": "^7.2.0",
+    "good-console": "^6.4.0",
+    "good-squeeze": "^5.0.2",
+    "hapi": "^16.5.2",
+    "inert": "^4.2.1",
+    "mongoose": "^4.11.6"
+  }
+}
