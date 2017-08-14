@@ -22,11 +22,35 @@
   },
   "homepage": "https://github.com/sirjiangbo/mini-blog#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "ejs": "^2.5.7",
     "good": "^7.2.0",
     "good-console": "^6.4.0",
     "good-squeeze": "^5.0.2",
     "hapi": "^16.5.2",
     "inert": "^4.2.1",
-    "mongoose": "^4.11.6"
+    "iview": "^2.0.0",
+    "mongoose": "^4.11.6",
+    "vision": "^4.1.1",
+    "vue": "^2.4.2",
+    "vue-router": "^2.7.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "file-loader": "^0.11.2",
+    "gulp": "^3.9.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-less": "^3.3.2",
+    "less-loader": "^4.0.5",
+    "style-loader": "^0.18.2",
+    "vue-loader": "^12.2.2",
+    "vue-template-compiler": "^2.4.1",
+    "webpack": "^3.3.0"
   }
 }

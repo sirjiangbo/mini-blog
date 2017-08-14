@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
-const userSchema = new Schema({
-	id: ObjectId,
+let UserSchema = new mongoose.Schema({
 	name: String
-});
+}, { versionKey: false });
 
-module.exports = mongoose.model('User')
+module.exports = mongoose.model('users', UserSchema);

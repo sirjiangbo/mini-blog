@@ -1,9 +1,11 @@
 'use strict';
 
+const path = require('path');
 const Hapi = require('hapi');
 const Good = require('good');
-
+const ejs = require('ejs');
 const db = require('./db');
+const routes = require('./routes');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -13,28 +15,32 @@ server.connection({
 });
 
 // Add the route
-server.register(require('inert'), (err) => {
-
+server.register(require('vision'), (err) => {
 	if(err) {
 		throw err;
 	}
-
-	server.route({
-		method: 'GET',
-		path: '/',
-		handler: (request, reply) => {
-			reply.file('./public/views/index.html')
-		}
+	server.views({
+		engines: {ejs: ejs},
+		relativeTo: __dirname,
+		path: 'public/views'
 	});
-
+	routes.forEach((route, index) => {
+		server.route(route);
+	});
 });
 
-server.route({
-	method: 'GET',
-	path: '/admin',
-	handler: (request, reply) => {
-		return reply('hello admin');
-	}
+// Add Directory handler
+server.register(require('inert'), err => {
+	server.route({
+    method: 'GET',
+    path: '/{param*}',
+    handler: {
+      directory: {
+        path: path.join(__dirname, 'public'),
+        listing: true
+      }
+    }
+	});
 });
 
 // Start the server
@@ -61,19 +67,13 @@ server.register({
 		}
 	}
 }, (err) => {
-
 	if(err) {
 		throw err;
 	}
-
 	server.start(err => {
-
 		if(err) {
 			throw err;
 		}
-
 		server.log('info', 'Server running at: ' + server.info.uri);
-
 	});
-
 });
