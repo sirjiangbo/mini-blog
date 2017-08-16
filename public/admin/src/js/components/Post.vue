@@ -1,17 +1,17 @@
 <template>
 	<div>
-		<iTabs type="card" :animated="false" v-if="action == 'list'">
-        <iTab-pane label="全部">
-        	<iTable :columns="columns" :data="postList"></iTable>
+		<iTabs type="card" :animated="false" v-if="action == 'list'" @on-click="tabClick">
+        <iTab-pane label="全部" name="all">
+        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
         </iTab-pane>
-        <iTab-pane label="已发布">
-        	2222222
+        <iTab-pane label="已发布" name="published">
+        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
         </iTab-pane>
-        <iTab-pane label="审核中">
-        	333333
+        <iTab-pane label="审核中" name="pending">
+        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
         </iTab-pane>
-        <iTab-pane label="未通过">
-        	4444
+        <iTab-pane label="未通过" name="rejected">
+        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
         </iTab-pane>
     </iTabs>
     <div v-if="action == 'add'">
@@ -95,6 +95,7 @@
 	export default {
 		data() {
 			return {
+			    postType: 'all',
 				postData: {
 					title: '',
 					content:'',
@@ -105,46 +106,100 @@
 					category: []
 				},
 				cityList: [
-	          {
-	              value: 'beijing',
-	              label: '北京市'
-	          },
-	          {
-	              value: 'shanghai',
-	              label: '上海市'
-	          },
-	          {
-	              value: 'shenzhen',
-	              label: '深圳市'
-	          },
-	          {
-	              value: 'hangzhou',
-	              label: '杭州市'
-	          },
-	          {
-	              value: 'nanjing',
-	              label: '南京市'
-	          },
-	          {
-	              value: 'chongqing',
-	              label: '重庆市'
-	          }
-	      ],
-				columns: [
-            {
-                title: '标题',
-                key: 'title'
-            },
-            {
-                title: '状态',
-                key: 'status'
-            },
-            {
-                title: '发布日期',
-                key: 'date'
-            }
-        ],
-        toolbars: {
+                  {
+                      value: 'beijing',
+                      label: '北京市'
+                  },
+                  {
+                      value: 'shanghai',
+                      label: '上海市'
+                  },
+                  {
+                      value: 'shenzhen',
+                      label: '深圳市'
+                  },
+                  {
+                      value: 'hangzhou',
+                      label: '杭州市'
+                  },
+                  {
+                      value: 'nanjing',
+                      label: '南京市'
+                  },
+                  {
+                      value: 'chongqing',
+                      label: '重庆市'
+                  }
+                ],
+                columns: [
+                    {
+                        title: '标题',
+                        key: 'title'
+                    },
+                    {
+                        title: '作者',
+                        key: 'author'
+                    },
+                    {
+                        title: '状态',
+                        key: 'status'
+                    },
+                    {
+                        title: '发布日期',
+                        key: 'date'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            const _this = this;
+                            const c = '4';
+                            return h('div', [
+                                c !== 'a'?h(iButton, {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click() {
+                                            alert('修改1');
+                                        }
+                                    }
+                                }, '修改1'): h(iButton, {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click() {
+                                            alert('hello')
+                                        }
+                                    }
+                                }, '修改2'),
+                                h(iButton, {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click() {
+                                            _this.postDelete(params.row._id)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
+                    }
+                ],
+                toolbars: {
 			      bold: true, 
 			      italic: true,
 			      header: true,
@@ -174,7 +229,7 @@
 			      alignright: true,
 			      subfield: true,
 			      preview: true
-			  }
+			    }
 			}
 		},
 		components: {
@@ -207,13 +262,13 @@
 		},
 		created() {
 			const _this = this;
-			axios.post('/post/list')
-				.then(function(response) {
-					_this.$store.commit('postList', response.data.data);
-				})
-				.catch(function(err) {
-					throw err;
-				});
+			axios.post('/post/list', {
+
+			}).then(function(response) {
+				_this.$store.commit('postList', response.data.data);
+			}).catch(function(err) {
+				throw err;
+			});
 		},
 		methods: {
 			postPublish() {
@@ -229,7 +284,8 @@
 					content,
 					link,
 					date,
-					status: 'pendding',
+					status: 'pending',
+					author: 'admin',
 					category,
 					tag,
 					is_public
@@ -250,8 +306,33 @@
 					throw err;
 				});
 			},
+			postDelete(id) {
+			    const _this = this;
+			    axios.post('/post/delete', {
+			        post_id: id
+                }).then(function(res) {
+                    console.log('asdfasdf')
+                    console.log(res);
+                    _this.filterPostList({status: _this.postType});
+                }).catch(function(err) {
+                    throw err;
+                });
+            },
 			dateChange(date) {
 				this.postData.date = date;
+			},
+			tabClick(name) {
+			    this.postType = name;
+				this.filterPostList({status: name});
+			},
+			filterPostList(query) {
+				const _this = this;
+				axios.post('/post/list', query)
+				.then(function(response) {
+					_this.$store.commit('postList', response.data.data);
+				}).catch(function(err) {
+					throw err;
+				});
 			}
 		}
 	}

@@ -4,8 +4,11 @@ module.exports = {
 	method: 'POST',
 	path: '/post/list',
 	handler: (request, reply) => {
-		const payload = request.payload;
-		Post.find({}).then((err, post) => {
+		let query = request.payload;
+		if(query.status === 'all') {
+			query = {};
+		}
+		Post.find(query).then((err, post) => {
 			if(err) {
 				return err;
 			}

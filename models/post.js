@@ -5,6 +5,7 @@ let PostSchema = new mongoose.Schema({
 	content: String,
 	link: String,
 	date: String,
+	author: String,
 	status: String,
 	category: Array,
 	tag: Array,

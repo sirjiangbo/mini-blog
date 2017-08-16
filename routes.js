@@ -6,6 +6,7 @@ const postDetail = require('./routes/postDetail');
 const user = require('./api/user');
 const postPublish = require('./api/postPublish');
 const postList = require('./api/postList');
+const postDelete = require('./api/postDelete');
 
 module.exports = [
 	index,
@@ -15,5 +16,6 @@ module.exports = [
 	postDetail,
 	user,
 	postPublish,
-	postList
+	postList,
+    postDelete
 ];
