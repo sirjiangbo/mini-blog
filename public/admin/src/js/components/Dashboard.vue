@@ -30,6 +30,7 @@
 	import iMenu from 'iview/src/components/menu';
 	import iIcon from 'iview/src/components/icon';
 	import iBreadcrumb from 'iview/src/components/breadcrumb';
+	import axios from 'axios';
 
 	import Post from './Post.vue';
 	import Tag from './Tag.vue';
@@ -115,11 +116,24 @@
 		},
 		methods: {
 			onSelect(name) {
+				const _this = this;
 				const arr = name.split('-');
 				this.$store.commit('changeModuleAndAction', {
 					module: arr[0],
 					action: arr[1]
 				});
+				if(arr[1] === 'list') {
+					if(arr[0] === 'post') {
+						axios.post('/' + arr[0] + '/' + arr[1], {
+
+						}).then(function(res) {
+							const mutationType = arr[0] + 'List';
+							_this.$store.commit(mutationType, res.data.data);
+						}).catch(function(err) {
+							throw err;
+						});
+					}
+				}
 			}
 		}
 	};
@@ -128,7 +142,7 @@
 <style>
 	body { background: #f5f5f5; }
 	.menuBox { position: absolute; top: 0; left: 0; bottom: 0; width: 240px; background: #363e4f;}
-	.contentbox { margin-left: 240px; height: 400px; }
-	.content { background: #fff; padding: 10px 15px; margin-top: 10px; }
+	.contentbox { position: absolute; top: 0; left: 240px; bottom: 0; right: 0; }
+	.content { position: absolute; top: 54px; left: 0; bottom: 0; right: 0; padding: 10px 15px; background: #fff; overflow-y: auto;}
 	.breadcrumb { padding: 10px 15px; background: #fff; border-bottom: 1px solid #dddee1; }
 </style>

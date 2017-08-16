@@ -8,7 +8,8 @@ Vue.use(Vuex);
 
 const state = {
 	module: 'post',
-	action: 'list'
+	action: 'list',
+	postList: []
 };
 
 export default new Vuex.Store({

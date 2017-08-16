@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/sirjiangbo/mini-blog#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "bluebird": "^3.5.0",
     "ejs": "^2.5.7",
     "good": "^7.2.0",
@@ -32,6 +33,7 @@
     "iview": "^2.0.0",
     "mavon-editor": "^2.2.4",
     "mongoose": "^4.11.6",
+    "remarkable": "^1.7.1",
     "vision": "^4.1.1",
     "vue": "^2.4.2",
     "vuex": "^2.3.1"
