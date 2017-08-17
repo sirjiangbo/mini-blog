@@ -1,78 +1,86 @@
 <template>
 	<div>
-		<iTabs type="card" :animated="false" v-if="action == 'list'" @on-click="tabClick">
-        <iTab-pane label="全部" name="all">
-        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
-        </iTab-pane>
-        <iTab-pane label="已发布" name="published">
-        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
-        </iTab-pane>
-        <iTab-pane label="审核中" name="pending">
-        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
-        </iTab-pane>
-        <iTab-pane label="未通过" name="rejected">
-        	<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
-        </iTab-pane>
-    </iTabs>
-    <div v-if="action == 'add'">
-    	<iRow :gutter="16">
-    		<iCol span="16">
-    			<mavon-editor v-model="postData.content" :toolbars="toolbars"></mavon-editor>
-    		</iCol>
-    		<iCol span="8">
-    			<iRow :gutter="16" style="margin-bottom: 20px;">
-    				<iCol span="12">
-    					<iButton long>保存草稿</iButton>
-    				</iCol>
-    				<iCol span="12">
-    					<iButton type="success" long @click="postPublish()">发布文章</iButton>
-    				</iCol>
-    			</iRow>
-    			<iForm label-position="top">
-    				<iForm-item label="标题">
-	            <iInput v-model="postData.title"></iInput>
-	        	</iForm-item>
-	        	<iForm-item label="页面地址">
-	            <iInput v-model="postData.link"></iInput>
-	        	</iForm-item>
-	        	<iForm-item label="发布日期">
-	            <Date-picker type="date" placeholder="选择日期" :editable="false" style="width: 100%;" @on-change="dateChange"></Date-picker>
-	        	</iForm-item>
-	        	<iForm-item label="分类">
-	               <Checkbox-group v-model="postData.category">
-					        <Checkbox label="twitter">
-					            <Icon type="social-twitter"></Icon>
-					            <span>Twitter</span>
-					        </Checkbox>
-					        <Checkbox label="facebook">
-					            <Icon type="social-facebook"></Icon>
-					            <span>Facebook</span>
-					        </Checkbox>
-					        <Checkbox label="github">
-					            <Icon type="social-github"></Icon>
-					            <span>Github</span>
-					        </Checkbox>
-					        <Checkbox label="snapchat">
-					            <Icon type="social-snapchat"></Icon>
-					            <span>Snapchat</span>
-					        </Checkbox>
-					    </Checkbox-group>
-	        	</iForm-item>
-	        	<iForm-item label="标签">
-	            <iSelect v-model="postData.tag" filterable multiple>
-                <iOption v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
-            	</iSelect>
-	        	</iForm-item>
-	        	<iForm-item label="是否公开">
-	            <iRadio-group v-model="postData.is_public">
-				        <iRadio label="是"></iRadio>
-				        <iRadio label="否"></iRadio>
-				    </iRadio-group>
-	        	</iForm-item>
-    			</iForm>
-    		</iCol>
-    	</iRow>
-    </div>
+		<iTabs type="card" :animated="false" v-if="action === 'list'" @on-click="tabClick">
+			<iTab-pane label="全部" name="all">
+				<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
+			</iTab-pane>
+			<iTab-pane label="已发布" name="published">
+				<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
+			</iTab-pane>
+			<iTab-pane label="审核中" name="pending">
+				<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
+			</iTab-pane>
+			<iTab-pane label="未通过" name="rejected">
+				<iTable :columns="columns" :data="postList" :border="true" :stripe="true"></iTable>
+			</iTab-pane>
+		</iTabs>
+		<div v-if="action === 'add'">
+			<iRow :gutter="16">
+				<iCol span="16">
+					<mavon-editor v-model="postData.content" :toolbars="toolbars"></mavon-editor>
+				</iCol>
+				<iCol span="8">
+					<iRow :gutter="16" style="margin-bottom: 20px;">
+						<iCol span="12">
+							<iButton long>保存草稿</iButton>
+						</iCol>
+						<iCol span="12">
+							<iButton type="success" long @click="postPublish()">发布文章</iButton>
+						</iCol>
+					</iRow>
+					<iForm label-position="top">
+						<iForm-item label="标题">
+							<iInput v-model="postData.title"></iInput>
+						</iForm-item>
+						<iForm-item label="页面地址">
+							<iInput v-model="postData.link"></iInput>
+						</iForm-item>
+						<iForm-item label="发布日期">
+							<Date-picker type="date" placeholder="选择日期" :editable="false" style="width: 100%;" @on-change="dateChange"></Date-picker>
+						</iForm-item>
+						<iForm-item label="分类">
+						   	<Checkbox-group v-model="postData.category">
+								<Checkbox label="twitter">
+									<Icon type="social-twitter"></Icon>
+									<span>Twitter</span>
+								</Checkbox>
+								<Checkbox label="facebook">
+									<Icon type="social-facebook"></Icon>
+									<span>Facebook</span>
+								</Checkbox>
+								<Checkbox label="github">
+									<Icon type="social-github"></Icon>
+									<span>Github</span>
+								</Checkbox>
+								<Checkbox label="snapchat">
+									<Icon type="social-snapchat"></Icon>
+									<span>Snapchat</span>
+								</Checkbox>
+							</Checkbox-group>
+						</iForm-item>
+						<iForm-item label="标签">
+							<iSelect v-model="postData.tag" filterable multiple>
+								<iOption v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
+							</iSelect>
+						</iForm-item>
+						<iForm-item label="是否公开">
+							<iRadio-group v-model="postData.is_public">
+								<iRadio label="是"></iRadio>
+								<iRadio label="否"></iRadio>
+							</iRadio-group>
+						</iForm-item>
+					</iForm>
+				</iCol>
+			</iRow>
+		</div>
+		<iModal v-model="deleteModal" width="300">
+			<div style="text-align:center; font-size: 16px;">
+				<p>确认删除？</p>
+			</div>
+			<div slot="footer">
+				<iButton type="error" size="large" long :loading="deleteModalLoading" @click="postDelete()">删除</iButton>
+			</div>
+		</iModal>
 	</div>
 </template>
 
@@ -88,6 +96,7 @@
 	import DatePicker from 'iview/src/components/date-picker';
 	import Checkbox from 'iview/src/components/checkbox';
 	import iRadio from 'iview/src/components/radio';
+	import iModal from 'iview/src/components/modal';
 	import { Select, Option } from 'iview/src/components/select';
 	import { mavonEditor } from 'mavon-editor';
 	import axios from 'axios';
@@ -95,6 +104,8 @@
 	export default {
 		data() {
 			return {
+			    deleteModal: false,
+                deleteModalLoading: false,
 			    postType: 'all',
 				postData: {
 					title: '',
@@ -191,7 +202,8 @@
                                     },
                                     on: {
                                         click() {
-                                            _this.postDelete(params.row._id)
+                                            _this.deleteModal = true;
+//                                            _this.postDelete(params.row._id)
                                         }
                                     }
                                 }, '删除')
@@ -250,6 +262,7 @@
 			iSelect: Select,
 			iOption: Option,
 			iRadio,
+            iModal,
 			iRadioGroup: iRadio.Group
 		},
 		computed: {
@@ -307,6 +320,9 @@
 				});
 			},
 			postDelete(id) {
+			    this.$Message.info('这是一条普通的提醒');
+			    this.deleteModalLoading = true;
+			    return;
 			    const _this = this;
 			    axios.post('/post/delete', {
 			        post_id: id
