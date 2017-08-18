@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
 	entry: {
@@ -14,7 +15,8 @@ module.exports = {
 	plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'common'
-        })
+        }),
+		new ExtractTextPlugin('muse.css')
 	],
 	module: {
 		rules: [
@@ -24,16 +26,15 @@ module.exports = {
 				use: ['babel-loader']
 			},
 			{
-				test: /iview.src.*?js$/,
-				use: ['babel-loader']
-			},
-			{
 				test: /\.vue$/,
 				use: ['vue-loader']
 			},
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
+				use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
 			},
 			{
 				test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
