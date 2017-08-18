@@ -1,17 +1,13 @@
 const home = require('./routes/home');
 const admin = require('./routes/admin');
-const user = require('./api/user');
-const postPublish = require('./api/postPublish');
-const postList = require('./api/postList');
-const postDelete = require('./api/postDelete');
+const login = require('./routes/login');
+const api_login = require('./api/api_login');
 
 module.exports = {
 	routes: [
         home,
         admin,
-        user,
-        postPublish,
-        postList,
-        postDelete
+        login,
+        api_login
     ]
 };

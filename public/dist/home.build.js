@@ -1,6 +1,6 @@
-webpackJsonp([0],[
-/* 0 */,
-/* 1 */
+webpackJsonp([2],{
+
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9,4 +9,5 @@ webpackJsonp([0],[
 console.log('home');
 
 /***/ })
-],[1]);
+
+},[12]);

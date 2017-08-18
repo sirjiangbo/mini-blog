@@ -17,6 +17,11 @@ server.connection({
 	port: config.port
 });
 
+server.state('session', {
+    isSecure: false,
+    encoding: 'base64json'
+});
+
 server.register(vision, err => {
 	if(err) {
 		console.error(err);
@@ -33,6 +38,10 @@ server.register(vision, err => {
 });
 
 server.register(inert, err => {
+    if(err) {
+        console.error(err);
+        throw err;
+    }
 	server.route({
 		method: 'GET',
 		path: '/{param*}',

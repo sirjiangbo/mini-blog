@@ -4,7 +4,8 @@ const webpack = require('webpack');
 module.exports = {
 	entry: {
 		admin: './public/src/admin.js',
-		home: './public/src/home.js'
+		home: './public/src/home.js',
+		login: './public/src/login.js'
 	},
 	output: {
 		path: path.join(__dirname, 'public/dist'),
