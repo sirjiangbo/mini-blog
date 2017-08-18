@@ -1,22 +1,26 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-	entry: './public/admin/src/js/admin.js',
-	output: {
-		path: path.join(__dirname, 'public/admin/dist'),
-		filename: 'admin.build.js'
+	entry: {
+		admin: './public/src/admin.js',
+		home: './public/src/home.js'
 	},
+	output: {
+		path: path.join(__dirname, 'public/dist'),
+		filename: '[name].build.js'
+	},
+	plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common'
+        })
+	],
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				exclude: /(node_modules|bower_components)/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['es2015', 'stage-0']
-					}
-				}
+				exclude: /(node_modules)/,
+				use: ['babel-loader']
 			},
 			{
 				test: /iview.src.*?js$/,

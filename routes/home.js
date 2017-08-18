@@ -1,7 +1,9 @@
+'use strict';
+
 module.exports = {
 	method: 'GET',
-	path: '/admin/login',
+	path: '/',
 	handler: (request, reply) => {
-		reply.view('login', {});
+		reply.view('home', {});
 	}
 };

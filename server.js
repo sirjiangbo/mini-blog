@@ -1,22 +1,25 @@
 'use strict';
 
 const path = require('path');
-const Hapi = require('hapi');
+const hapi = require('hapi');
 const Good = require('good');
 const ejs = require('ejs');
-const db = require('./db');
-const routes = require('./routes');
+const vision = require('vision');
+const inert = require('inert');
+const config = require('./config');
+const routes = require('./routes').routes;
+const server = new hapi.Server();
 
-// Create a server with a host and port
-const server = new Hapi.Server();
+require('./database');
+
 server.connection({
-	host: 'localhost',
-	port: 8000
+	host: config.host,
+	port: config.port
 });
 
-// Add the route
-server.register(require('vision'), (err) => {
+server.register(vision, err => {
 	if(err) {
+		console.error(err);
 		throw err;
 	}
 	server.views({
@@ -24,26 +27,24 @@ server.register(require('vision'), (err) => {
 		relativeTo: __dirname,
 		path: 'public/views'
 	});
-	routes.forEach((route, index) => {
+	routes.forEach(route => {
 		server.route(route);
 	});
 });
 
-// Add Directory handler
-server.register(require('inert'), err => {
+server.register(inert, err => {
 	server.route({
-    method: 'GET',
-    path: '/{param*}',
-    handler: {
-      directory: {
-        path: path.join(__dirname, 'public'),
-        listing: true
-      }
-    }
+		method: 'GET',
+		path: '/{param*}',
+		handler: {
+			directory: {
+				path: path.join(__dirname, 'public'),
+				listing: true
+			}
+		}
 	});
 });
 
-// Start the server
 server.register({
 	register: Good,
 	options: {
@@ -68,10 +69,12 @@ server.register({
 	}
 }, (err) => {
 	if(err) {
+		console.error(err);
 		throw err;
 	}
 	server.start(err => {
 		if(err) {
+            console.error(err);
 			throw err;
 		}
 		server.log('info', 'Server running at: ' + server.info.uri);
