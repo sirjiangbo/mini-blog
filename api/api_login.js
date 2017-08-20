@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    method: 'GET',
+    method: 'POST',
     path: '/api/login',
     handler: (request, reply) => {
         const res = {

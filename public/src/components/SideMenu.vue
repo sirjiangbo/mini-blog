@@ -24,8 +24,12 @@
     export default {
         data() {
             return {
-                activeList: 'post-list'
+                activeList: ''
             }
+        },
+        created() {
+            const pathArr = this.$route.path.split('/');
+            this.activeList = pathArr[1] + '-' + pathArr[2];
         },
         methods: {
             handleListChange(val) {

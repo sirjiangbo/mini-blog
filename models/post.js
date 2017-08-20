@@ -9,7 +9,7 @@ let PostSchema = new mongoose.Schema({
 	status: String,
 	category: Array,
 	tag: Array,
-	is_public: Boolean
+	is_public: String
 }, { versionKey: false });
 
 module.exports = mongoose.model('posts', PostSchema);

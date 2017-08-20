@@ -6,7 +6,7 @@
             <mu-tab value="pending" title="审核中"></mu-tab>
             <mu-tab value="rejected" title="未通过"></mu-tab>
         </mu-tabs>
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 20px;">
             <mu-table :showCheckbox="false" :fixedHeader="true">
                 <mu-thead>
                     <mu-tr>

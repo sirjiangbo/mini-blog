@@ -5,7 +5,7 @@ import store from './store'
 import Admin from './components/Admin.vue'
 
 import 'muse-ui/dist/muse-ui.css'
-import 'muse-ui/dist/theme-carbon.css'
+import 'muse-ui/dist/theme-light.css'
 
 Vue.use(MuseUI);
 Vue.use(VueRouter);
