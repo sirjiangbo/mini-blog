@@ -2,7 +2,7 @@
 
 const path = require('path');
 const hapi = require('hapi');
-const Good = require('good');
+const good = require('good');
 const ejs = require('ejs');
 const vision = require('vision');
 const inert = require('inert');
@@ -55,7 +55,7 @@ server.register(inert, err => {
 });
 
 server.register({
-	register: Good,
+	register: good,
 	options: {
 		reporters: {
 			console: [
