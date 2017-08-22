@@ -2,7 +2,7 @@
     <div>
         <mu-flexbox  :gutter="16" align="flex-start">
             <mu-flexbox-item grow="8">
-                <mavon-editor v-model="postData.content"></mavon-editor>
+                <mavon-editor :ishljs = "true" v-model="postData.content" @change="editorChange"></mavon-editor>
             </mu-flexbox-item>
             <mu-flexbox-item grow="3">
                 <mu-flexbox :gutter="16" style="margin-bottom: 20px;">
@@ -50,6 +50,7 @@
                     link: '',
                     date: '',
                     content: '',
+                    html: '',
                     category: [],
                     tag: [],
                     is_public: '1'
@@ -62,6 +63,9 @@
             mavonEditor
         },
         methods: {
+            editorChange(value, render) {
+                this.postData.html = render;
+            },
             showToast(message = '添加成功') {
                 this.toast = {
                     show: true,
@@ -80,6 +84,7 @@
                     link: '',
                     date: '',
                     content: '',
+                    html:'',
                     category: [],
                     tag: [],
                     is_public: '1'

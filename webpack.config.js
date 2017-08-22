@@ -1,21 +1,28 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const langs = require('highlight.js-async-webpack/src/file.lang.hljs.js');
+
+let entry = {
+	admin: './public/src/admin.js',
+	home: './public/src/home.js',
+	login: './public/src/login.js'
+};
+
+langs.forEach(lang => {
+	entry[lang] = ['mavon-editor/dist/js/' + lang + '.js'];
+});
 
 module.exports = {
-	entry: {
-		admin: './public/src/admin.js',
-		home: './public/src/home.js',
-		login: './public/src/login.js'
-	},
+	entry,
 	output: {
 		path: path.join(__dirname, 'public/dist'),
 		filename: '[name].build.js'
 	},
 	plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'common'
-        }),
+    new webpack.optimize.CommonsChunkPlugin({
+    	name: 'common'
+    }),
 		new ExtractTextPlugin('muse.css')
 	],
 	module: {
@@ -32,9 +39,9 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
-                })
+          fallback: "style-loader",
+          use: "css-loader"
+        })
 			},
 			{
 				test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
